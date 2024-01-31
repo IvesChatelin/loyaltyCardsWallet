@@ -31,7 +31,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/editTextText"
+                android:id="@+id/editTextName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -50,7 +50,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/editTextTextEmailAddress"
+                android:id="@+id/editTextEmailRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -70,7 +70,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/editTextTextPassword"
+                android:id="@+id/editTextPasswordRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -114,6 +114,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/maron"
+            android:onClick="register"
             android:text="Inscription"
             android:textColor="@color/vert"
             android:textSize="24sp"

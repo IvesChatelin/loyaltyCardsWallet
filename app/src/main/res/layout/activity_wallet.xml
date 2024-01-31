@@ -40,9 +40,19 @@
                 android:textSize="24sp" />
 
             <LinearLayout
+                android:id="@+id/addbtn"
                 android:layout_width="49dp"
                 android:layout_height="49dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/addbtn"
+                android:orientation="vertical"></LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/logoutbtn"
+                android:layout_width="49dp"
+                android:layout_height="49dp"
+                android:background="@drawable/logout"
+                android:onClick="logout"
                 android:orientation="vertical"></LinearLayout>
 
         </LinearLayout>
@@ -87,7 +97,9 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp" />
+            android:layout_marginRight="20dp" >
+
+        </ListView>
 
     </LinearLayout>
 
