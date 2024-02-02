@@ -2,7 +2,6 @@ package com.ives_styve.loyaltycard
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -10,7 +9,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 
 private val Context.tokenStore by preferencesDataStore(name = "token")
-class TokenStore {
+class TokenStorage {
 
     private var context: Context
     private var tokenKey = stringPreferencesKey("token")

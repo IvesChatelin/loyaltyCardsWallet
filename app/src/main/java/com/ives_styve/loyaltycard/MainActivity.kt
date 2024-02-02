@@ -21,16 +21,16 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val tokenStore = TokenStore(this)
+            val tokenStorage = TokenStorage(this)
             mainScope.launch {
                 var token: String? = null
                 var expiration: Long? = 0
-                token = tokenStore.read()
-                expiration = tokenStore.readExpiration()
+                token = tokenStorage.read()
+                expiration = tokenStorage.readExpiration()
                 if(token.toString() != "null" && Date().time <= expiration.toLong()){
-                    //Log.d("TAG", token.toString())
-                    //Log.d("TAG", "date : "+ expiration.toLong())
-                    //Log.d("TAG", "date : "+ Date().time)
+                    Log.d("TAG", token.toString())
+                    Log.d("TAG", "date : "+ expiration.toLong())
+                    Log.d("TAG", "date : "+ Date().time)
                     val intent = Intent(this@MainActivity, WalletActivity::class.java)
                     startActivity(intent)
                     finish()

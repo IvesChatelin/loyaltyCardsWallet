@@ -9,14 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
 
         <TextView
-            android:id="@+id/textViewStore"
+            android:id="@+id/itemName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Compagny"
+            android:text="Name"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="24sp"
@@ -34,6 +36,7 @@
                 android:layout_height="30dp"
                 android:layout_marginRight="7dp"
                 android:background="@drawable/info"
+                android:onClick="goToInfoCard"
                 android:orientation="vertical">
 
             </LinearLayout>

@@ -25,10 +25,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun goToWallet(token: String?){
-        val tokenStore = TokenStore(this)
+        val tokenStorage = TokenStorage(this)
         mainScope.launch {
             //le token expire après 24h soit 86400 seconde
-            tokenStore.write(token, Date().time + 86400)
+            tokenStorage.write(token, Date().time + 86400)
         }
         val intent = Intent(this, WalletActivity::class.java)
         intent.putExtra("token",token)
@@ -37,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun openDialog(){
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this@LoginActivity)
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         builder
             .setTitle("Erreur de connexion")
             .setMessage("l'email ou le mot de passe ne correspond pas")

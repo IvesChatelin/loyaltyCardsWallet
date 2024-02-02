@@ -1,6 +1,7 @@
 package com.ives_styve.loyaltycard
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,25 +10,26 @@ import android.widget.TextView
 
 class CardAdapter(
     private val context: Context,
-    private val dataSource: ArrayList<String>
+    private val dataSource: ArrayList<ResponseCardData>
 ):BaseAdapter() {
     private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     override fun getCount(): Int {
         return dataSource.size
     }
 
-    override fun getItem(position: Int): Any {
+    override fun getItem(position: Int): ResponseCardData {
         return dataSource[position]
     }
 
     override fun getItemId(position: Int): Long {
-        return position.toLong()
+        return dataSource[position].id.toLong()
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val rowView = inflater.inflate(R.layout.item,parent,false)
-        val magazin = rowView.findViewById<TextView>(R.id.textViewStore)
-        magazin.text = getItem(position).toString()
+        val name = rowView.findViewById<TextView>(R.id.itemName)
+        name.text = getItem(position).name
+        Log.d("tag", count.toString())
         return rowView
     }
 }
