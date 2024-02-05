@@ -33,7 +33,6 @@ class CardAdapter(
         val rowView = inflater.inflate(R.layout.item,parent,false)
         val name = rowView.findViewById<TextView>(R.id.itemName)
         name.text = getItem(position).name
-        Log.d("tag", count.toString())
         return rowView
     }
 }
