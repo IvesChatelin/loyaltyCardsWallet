@@ -2,10 +2,16 @@ package com.ives_styve.loyaltycard
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Layout
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemClickListener
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import com.google.android.gms.common.moduleinstall.ModuleInstall
 import com.google.android.gms.common.moduleinstall.ModuleInstallRequest
 import com.google.mlkit.vision.barcode.common.Barcode
@@ -13,12 +19,17 @@ import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import java.text.FieldPosition
 
 class WalletActivity : AppCompatActivity() {
 
     private var listOfCard = ArrayList<ResponseCardData>()
     private val mainScope = MainScope()
     private lateinit var adapter: CardAdapter
+    private val options = GmsBarcodeScannerOptions.Builder()
+        .setBarcodeFormats(
+            Barcode.FORMAT_ALL_FORMATS)
+        .build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +37,24 @@ class WalletActivity : AppCompatActivity() {
         adapter = CardAdapter(this,listOfCard)
         getCards()
         initListCardView()
+
+        // on téléchage le module neccessaire pour le lecteur de code
+        val moduleInstallRequest = ModuleInstallRequest.newBuilder().addApi(GmsBarcodeScanning.getClient(this)).build()
+        val moduleInstallClient = ModuleInstall.getClient(this)
+        val listCard = findViewById<ListView>(R.id.listcard)
+
+        listCard.onItemClickListener = object : OnItemClickListener {
+            override fun onItemClick(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                getInfo(position)
+            }
+        }
+
+        search()
     }
 
     private fun initListCardView(){
@@ -33,16 +62,32 @@ class WalletActivity : AppCompatActivity() {
         listCard.adapter = adapter
     }
 
-    public fun goToInfoCard(view: View){
-       val intent = Intent(this, CardInformationActivity::class.java)
-        startActivity(intent)
+    private fun search(){
+        val textFieldSearch = findViewById<EditText>(R.id.editTextSearch)
+        val tmpListOfCard = ArrayList<ResponseCardData>()
+        tmpListOfCard.addAll(listOfCard)
+        textFieldSearch.addTextChangedListener { text ->
+            if (text.toString() == ""){
+                listOfCard.clear()
+                listOfCard.addAll(tmpListOfCard)
+                updateListOfCard()
+            }
+            val searchList = ArrayList<ResponseCardData>()
+            for (i in 0 until listOfCard.size){
+                if(listOfCard[i].name == text.toString()){
+                    searchList.add(listOfCard[i])
+                }
+            }
+            listOfCard.clear()
+            listOfCard.addAll(searchList)
+            updateListOfCard()
+        }
     }
 
     private fun getSuccess(responseCode: Int, responseCardData: List<ResponseCardData>?){
         if(responseCode == 200 && !responseCardData.isNullOrEmpty()){
             listOfCard.addAll(responseCardData)
             updateListOfCard()
-            Log.d("TAG", responseCardData.toString())
         }
     }
 
@@ -58,7 +103,6 @@ class WalletActivity : AppCompatActivity() {
             val token = tokenStorage.read()
             Api().get<List<ResponseCardData>>("https://esicards.lesmoulinsdudev.com/cards",::getSuccess,token)
         }
-
     }
 
     public fun logout(view: View){
@@ -68,39 +112,44 @@ class WalletActivity : AppCompatActivity() {
         }
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
-        finish()
+        finish();
+    }
+
+    private fun getInfoSuccess(responseCode: Int, responseInfoCard: ResponseInfoCard?){
+        if(responseCode == 200){
+            val intent = Intent(this, CardInformationActivity::class.java)
+            intent.putExtra("name", responseInfoCard?.name)
+            intent.putExtra("date", responseInfoCard?.createdAt)
+            intent.putExtra("lastuse", responseInfoCard?.lastUsedAt)
+            intent.putExtra("data", responseInfoCard?.data)
+            intent.putExtra("id",responseInfoCard?.id)
+            startActivity(intent)
+        }
+    }
+
+    private fun getInfo(position: Int){
+        val tokenStorage = TokenStorage(this)
+        mainScope.launch {
+            Api().get<ResponseInfoCard>("https://esicards.lesmoulinsdudev.com/cards/"+adapter.getItemId(position),::getInfoSuccess,tokenStorage.read())
+        }
     }
 
     public fun addCard(view: View) {
-        val options = GmsBarcodeScannerOptions.Builder()
-            .setBarcodeFormats(
-                Barcode.FORMAT_ALL_FORMATS)
-            .build()
         val scanner = GmsBarcodeScanning.getClient(this, options)
-        // on demande à l'appareil d'installer le service scanner
-        val moduleInstallRequest = ModuleInstallRequest.newBuilder().addApi(scanner).build()
-        val moduleInstallClient = ModuleInstall.getClient(this)
-        moduleInstallClient.installModules(moduleInstallRequest)
-            .addOnSuccessListener {
-                scanner.startScan()
-                    .addOnSuccessListener { barcode ->
-                        val rawValue: String? = barcode.rawValue
-                        val valueType = barcode.valueType
-                        val intent = Intent(this,AddCardActivity::class.java)
-                        intent.putExtra("data", rawValue)
-                        intent.putExtra("type", valueType)
-                        startActivity(intent)
-                    }
-                    .addOnCanceledListener {
-                        Log.d("CanceledScanner", "CANCELED")
-                    }
-                    .addOnFailureListener { e ->
-                        Log.d("FailureScanner", e.toString())
-                    }
+        scanner.startScan()
+            .addOnSuccessListener { barcode ->
+                val rawValue: String? = barcode.rawValue
+                val valueType = barcode.valueType
+                val intent = Intent(this,AddCardActivity::class.java)
+                intent.putExtra("data", rawValue)
+                intent.putExtra("type", valueType)
+                startActivity(intent)
+            }
+            .addOnCanceledListener {
+                Log.d("CanceledScanner", "CANCELED")
             }
             .addOnFailureListener { e ->
-                Log.d("FailureModuleInstallScanner", e.toString())
+                Log.d("FailureScanner", e.toString())
             }
-
     }
 }

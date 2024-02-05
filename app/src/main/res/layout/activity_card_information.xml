@@ -31,7 +31,7 @@
                 android:orientation="vertical"></LinearLayout>
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/textViewCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -194,6 +194,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@color/maron"
+                android:onClick="cancel"
                 android:text="Retour"
                 android:textColor="@color/vert"
                 android:textSize="16sp" />
@@ -204,6 +205,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@color/maron"
+                android:onClick="delete"
                 android:text="Supprimer"
                 android:textColor="@color/vert"
                 android:textSize="16sp" />

@@ -1,6 +1,7 @@
 package com.ives_styve.loyaltycard
 
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -28,6 +29,8 @@ class AddCardActivity : AppCompatActivity() {
 
     private fun addSuccess(responseCode: Int){
         if(responseCode == 200){
+            val intent = Intent(this, WalletActivity::class.java)
+            startActivity(intent)
             finish()
         }
     }

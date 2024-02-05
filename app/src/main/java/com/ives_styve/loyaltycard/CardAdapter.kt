@@ -7,12 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
 class CardAdapter(
     private val context: Context,
-    private val dataSource: ArrayList<ResponseCardData>
+    private val dataSource: ArrayList<ResponseCardData>,
 ):BaseAdapter() {
+
     private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
     override fun getCount(): Int {
         return dataSource.size
     }

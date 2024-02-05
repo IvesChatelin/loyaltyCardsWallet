@@ -28,9 +28,6 @@ class MainActivity : AppCompatActivity() {
                 token = tokenStorage.read()
                 expiration = tokenStorage.readExpiration()
                 if(token.toString() != "null" && Date().time <= expiration.toLong()){
-                    Log.d("TAG", token.toString())
-                    Log.d("TAG", "date : "+ expiration.toLong())
-                    Log.d("TAG", "date : "+ Date().time)
                     val intent = Intent(this@MainActivity, WalletActivity::class.java)
                     startActivity(intent)
                     finish()

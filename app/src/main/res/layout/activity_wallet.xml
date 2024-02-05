@@ -83,12 +83,12 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/editTextText2"
+                    android:id="@+id/editTextSearch"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
-                    android:inputType="text"
-                    android:text="Name" />
+                    android:hint="Name"
+                    android:inputType="text" />
             </LinearLayout>
         </LinearLayout>
 
