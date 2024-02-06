@@ -92,6 +92,30 @@
             </LinearLayout>
         </LinearLayout>
 
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioButtonName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textColor="@color/maron"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:id="@+id/radioButtonDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date de création"
+                android:textColor="@color/maron"
+                android:textSize="16sp" />
+        </RadioGroup>
+
         <ListView
             android:id="@+id/listcard"
             android:layout_width="match_parent"

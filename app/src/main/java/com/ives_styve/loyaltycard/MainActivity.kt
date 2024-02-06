@@ -17,9 +17,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //pour masquer la bar d'action sur l'écran de démarrage
+        // hide the action bar
         supportActionBar?.hide()
 
+        // launch the loop for check existent token
         Handler(Looper.getMainLooper()).postDelayed({
             val tokenStorage = TokenStorage(this)
             mainScope.launch {

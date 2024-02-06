@@ -41,7 +41,6 @@ class LoginActivity : AppCompatActivity() {
         builder
             .setTitle("Erreur de connexion")
             .setMessage("l'email ou le mot de passe ne correspond pas")
-
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
@@ -54,6 +53,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    // Api login
     public fun login(view: View){
         val mail = findViewById<EditText>(R.id.editTextTextEmaillogin).text.toString()
         val  password = findViewById<EditText>(R.id.editTextTextPasswordlogin).text.toString()

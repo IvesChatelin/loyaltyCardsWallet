@@ -35,6 +35,7 @@ class AddCardActivity : AppCompatActivity() {
         }
     }
 
+    // Api post card
     public fun saveCard(view: View){
         val name = findViewById<EditText>(R.id.editTextaddName).text.toString()
         val data = intent.extras?.getString("data").toString()

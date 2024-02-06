@@ -56,6 +56,7 @@ class CardInformationActivity : AppCompatActivity() {
         finish()
     }
 
+    // Generate barcode
     private fun generateQRCode(){
         val info = findViewById<TextView>(R.id.lbInfo)
         val bitMatrix = MultiFormatWriter().encode(info.text.toString(), BarcodeFormat.QR_CODE,250,250)

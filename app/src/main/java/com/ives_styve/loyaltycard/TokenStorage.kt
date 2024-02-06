@@ -9,15 +9,10 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 
 private val Context.tokenStore by preferencesDataStore(name = "token")
-class TokenStorage {
+class TokenStorage(private var context: Context) {
 
-    private var context: Context
     private var tokenKey = stringPreferencesKey("token")
     private var exprirationKey = longPreferencesKey("expiration")
-
-    constructor(context: Context){
-        this.context = context
-    }
 
     suspend fun write(token: String?, expiration: Long){
         this.context.tokenStore.edit { preferences -> preferences[tokenKey] = token.toString() }
